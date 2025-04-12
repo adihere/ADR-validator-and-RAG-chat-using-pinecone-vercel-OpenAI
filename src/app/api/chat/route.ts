@@ -1,15 +1,14 @@
-
 import { Message } from 'ai'
 import { getContext } from '../../utils/context'
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
+import { AI_CONFIG } from '@/config/ai-config';
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = 'edge'
 
 export async function POST(req: Request) {
   try {
-
     const { messages } = await req.json()
 
     // Get the last message
@@ -38,7 +37,7 @@ export async function POST(req: Request) {
     ]
 
     const result = await streamText({
-      model: openai("gpt-4o"),
+      model: openai(AI_CONFIG.models.chat),
       messages: [...prompt,...messages.filter((message: Message) => message.role === 'user')]
     });
 

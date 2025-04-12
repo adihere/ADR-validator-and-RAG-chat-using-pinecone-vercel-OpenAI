@@ -40,6 +40,8 @@ next-env.d.ts
 /playwright-report/
 /playwright/.cache/
 
+# AI Configuration
+src/config/ai-config.local.ts
 
 /.vscode/
 
