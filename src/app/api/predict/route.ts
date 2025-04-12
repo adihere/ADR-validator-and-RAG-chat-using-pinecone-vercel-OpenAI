@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateText } from 'ai';
 import { openai } from '@ai-sdk/openai';
+import { AI_CONFIG } from '@/config/ai-config';
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = 'edge';
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
     `;
     
     const { text: predictedQuestions } = await generateText({
-      model: openai("gpt-3.5-turbo"),
+      model: openai(AI_CONFIG.models.predict),
       prompt: predictPrompt,
       maxTokens: 150,
       temperature: 0.7,

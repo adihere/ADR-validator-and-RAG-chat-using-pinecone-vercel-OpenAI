@@ -1,7 +1,8 @@
-//import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { generateText, Message } from 'ai';
 import { getContext } from '../../utils/context';
 import { openai } from '@ai-sdk/openai';
+import { AI_CONFIG } from '@/config/ai-config';
 import { streamText } from 'ai';
 // IMPORTANT! Set the runtime to edge
 export const runtime = 'edge';
@@ -57,14 +58,19 @@ export async function POST(req: Request) {
     const systemPre = "You are an expert enterprise architect with deep knowledge of Architecture Decision Records and its validation. You will be given a context block followed by ADR text and you will need to validate the ADR based on the context block. Provide structural feedback in bullet points and sub-headings. List down the Positive points first followed by Areas of Improvement START OF CONTEXT ";
     const systemPost = "END OF CONTEXT.  Do not return special characters or markdown formatting.  Just return the text ";
 
-    const { text: generatedText } = await generateText({
-      model: openai("gpt-4o"),
-      prompt: systemPre + contextADRFromVector + messageString + systemPost,
+    const validationPrompt = systemPre + contextADRFromVector + messageString + systemPost;
+
+    const { text: validationResult } = await generateText({
+      model: openai(AI_CONFIG.models.validation),
+      prompt: validationPrompt,
+      maxTokens: 1000,
+      temperature: 0.7,
     });
-    debugLog("message from route ts - RESPONSE", generatedText);
+
+    debugLog("message from route ts - RESPONSE", validationResult);
     debugLog("message from route ts - PROMPT", "PRE \n" + systemPre + "contextADRFromVector" + contextADRFromVector + "messageString" + messageString + systemPost);
 
-    return new Response(JSON.stringify(textToJSON(generatedText)), {
+    return new Response(JSON.stringify(textToJSON(validationResult)), {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (e) {

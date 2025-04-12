@@ -27,8 +27,7 @@ const ValidateForm: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        //body: JSON.stringify({ text: inputText }),
-        body: JSON.stringify({ text: "hard coded text" }),
+        body: JSON.stringify({ text: inputText }),
       });
       console.log('Response status:', response.status);
       await logDebugInfo(`Response status: ${response.status}`);
