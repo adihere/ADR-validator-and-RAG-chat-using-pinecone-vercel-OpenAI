@@ -47,11 +47,19 @@ To run this application, you'll need to set up your environment variables in the
 
 **Core Features**
 
+**AI Configuration**
+The application uses optimized AI models for different functionalities:
+- Chat Interface: GPT-4o-mini for general chat interactions
+- ADR Validation: GPT-4o-mini for validating ADR documents
+- ADR Creation: GPT-4o-mini for assisted ADR creation
+- Predictive Features: GPT-3.5-turbo for generating improvement suggestions
 
-**ADR Creation **
+The AI system operates with a temperature setting of 0.7 to balance creativity and precision, and has a maximum token limit of 4000 tokens per request.
+
+**ADR Creation**
 The Architecture Decision Record (ADR) creation feature provides a structured approach to documenting architectural decisions. The system leverages GPT-4 to assist in creating well-formatted ADRs following industry best practices. The creation process is handled through a dedicated /create route, where users can input their architectural decision details. The system uses a context-aware approach, maintaining relevant information through vector embeddings stored in Pinecone. The AI assistant helps ensure that the ADR includes all essential components such as context, decision, consequences, and status, while maintaining consistency with existing architectural documentation.
 
-**ADR Validation **
+**ADR Validation**
 The validation functionality provides automated assessment of ADRs to ensure quality and completeness. When users submit an ADR for validation through the /validate endpoint, the system performs a comprehensive analysis using an AI model that acts as an expert enterprise architect. The validation process examines the ADR's structure, content, and alignment with best practices. The system provides feedback in a structured format, including both positive aspects and areas for improvement. The validation leverages context from the vector database to ensure consistency with existing architectural decisions and organizational standards.
 
 
